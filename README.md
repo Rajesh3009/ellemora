@@ -4,7 +4,9 @@ A modern, responsive e-commerce mobile application built with Flutter and Riverp
 
 ## Demo
 
-https://github.com/rajesh3009/ellemora/media/demo.mp4
+
+https://github.com/user-attachments/assets/137e401e-6416-47ed-93e1-2c3b8d48e462
+
 
 
 ## Features
