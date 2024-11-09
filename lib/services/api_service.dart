@@ -1,13 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../models/user_model.dart';
 import '../models/product_model.dart';
 
-part 'api_service.g.dart';
-
-@riverpod
-ApiService apiService(ApiServiceRef ref) => ApiService();
 
 class ApiService {
   static const String baseUrl = 'https://fakestoreapi.com';
@@ -61,16 +56,5 @@ class ApiService {
     }
   }
 
-  Future<Map<String, dynamic>> createUser({
-    required String email,
-    required String username,
-    required String password,
-    required String name,
-  }) async {
-    // Implement your API call here
-    // This is a placeholder implementation
-    throw UnimplementedError('API implementation needed');
-  }
 
-  // Add other API methods as needed...
 }

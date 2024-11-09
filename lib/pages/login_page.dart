@@ -1,7 +1,8 @@
+import 'package:ellemora/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../providers/auth_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'signup_page.dart';
+import '../providers/api_provider.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -24,14 +25,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       });
 
       try {
-        await ref.read(authStateProvider.notifier).login(
-              _usernameController.text,
-              _passwordController.text,
-            );
+        final apiService = ref.read(apiServiceProvider);
+        final user = await apiService.login(
+          _usernameController.text,
+          _passwordController.text,
+        );
 
-        // Navigate to home page on success
+        // Update auth state
+        ref.read(authStateProvider.notifier).state = user;
+
         if (mounted && ref.read(authStateProvider) != null) {
-          Navigator.pushReplacementNamed(context, '/home');
+          Navigator.pushReplacementNamed(context, '/');
         }
       } catch (e) {
         if (mounted) {

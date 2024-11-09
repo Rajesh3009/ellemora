@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "743847914861",
+    "project_id": "ellemora-bde0f",
+    "storage_bucket": "ellemora-bde0f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:743847914861:android:d94aae8599fcafdf0afe64",
+        "android_client_info": {
+          "package_name": "i.maze.ellemora"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0iUSFuxaLJj7nf8Uf8iy9SOjH0MFzjqU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
