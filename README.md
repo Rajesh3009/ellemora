@@ -1,16 +1,59 @@
-# ellemora
+# Ellemora - E-Commerce App
 
-A new Flutter project.
+A modern e-commerce mobile application built with Flutter and Riverpod. This app demonstrates clean architecture and best practices for building scalable Flutter applications.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Browse products from Fake Store API
+- View detailed product information
+- Shopping cart functionality
+- Responsive design
+- Clean and intuitive UI
 
-A few resources to get you started if this is your first Flutter project:
+## Prerequisites
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Before you begin, ensure you have met the following requirements:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Flutter SDK (3.5.0 or higher)
+- Dart SDK (3.5.3 or higher)
+- Git
+- A suitable IDE (VS Code, Android Studio, or IntelliJ)
+
+## Installation
+
+### 1. Install Flutter
+
+First, install the Flutter SDK by following these steps:
+
+1. Download Flutter from [flutter.dev/docs/get-started/install](https://flutter.dev/docs/get-started/install)
+2. Extract the downloaded file
+3. Add Flutter to your PATH
+4. Run `flutter doctor` to verify the installation
+
+### 2. Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/ellemora.git
+cd ellemora
+```
+
+### 3. Install Dependencies
+
+```bash
+flutter pub get
+```
+
+### 4. Run the App
+
+```bash
+flutter run
+```
+
+## Building for Production
+
+### Android
+
+```bash
+flutter build apk --release
+```
+The APK file will be located in the `build/app/outputs/flutter-apk/` directory.

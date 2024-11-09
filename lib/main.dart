@@ -1,9 +1,10 @@
-import 'package:ellemora/pages/signup_page.dart';
+import 'package:ellemora/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'pages/pages.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     const ProviderScope(
       child: MyApp(),
@@ -11,21 +12,26 @@ void main() {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authStateProvider);
+
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Ellemora',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-       initialRoute: '/',
+      home: authState.when(
+        data: (user) => user != null ? const HomePage() : const LoginPage(),
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, stack) => Center(child: Text('Error: $error')),
+      ),
       routes: {
-        '/': (context) => const HomePage(),
         '/login': (context) => const LoginPage(),
         '/register': (context) => const SignupPage(),
       },

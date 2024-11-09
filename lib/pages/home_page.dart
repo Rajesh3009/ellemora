@@ -16,6 +16,15 @@ class HomePage extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Products'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: ProductSearchDelegate(ref),
+              );
+            },
+          ),
           Stack(
             children: [
               IconButton(
@@ -138,6 +147,89 @@ class HomePage extends ConsumerWidget {
           child: Text('Error: $error'),
         ),
       ),
+    );
+  }
+}
+
+class ProductSearchDelegate extends SearchDelegate {
+  final WidgetRef ref;
+
+  ProductSearchDelegate(this.ref);
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: const Icon(Icons.clear),
+        onPressed: () => query = '',
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.arrow_back),
+      onPressed: () => close(context, null),
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return _buildSearchResults();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return _buildSearchResults();
+  }
+
+  Widget _buildSearchResults() {
+    return Consumer(
+      builder: (context, ref, child) {
+        final products = ref.watch(productsProvider);
+        
+        return products.when(
+          data: (items) {
+            final filteredProducts = items.where((product) =>
+              product.title.toLowerCase().contains(query.toLowerCase()) ||
+              product.category.toLowerCase().contains(query.toLowerCase())
+            ).toList();
+
+            return ListView.builder(
+              itemCount: filteredProducts.length,
+              itemBuilder: (context, index) {
+                final product = filteredProducts[index];
+                return ListTile(
+                  leading: product.image.isNotEmpty
+                      ? Image.network(
+                          product.image,
+                          width: 50,
+                          height: 50,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Icon(Icons.image_not_supported);
+                          },
+                        )
+                      : const Icon(Icons.image_not_supported),
+                  title: Text(product.title),
+                  subtitle: Text(product.category),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProductDetailPage(product: product),
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+          },
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stack) => Center(child: Text('Error: $error')),
+        );
+      },
     );
   }
 }

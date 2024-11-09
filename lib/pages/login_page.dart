@@ -20,34 +20,20 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   Future<void> _login() async {
     if (_formKey.currentState!.validate()) {
-      setState(() {
-        _isLoading = true;
-      });
-
       try {
-        final apiService = ref.read(apiServiceProvider);
-        final user = await apiService.login(
-          _usernameController.text,
-          _passwordController.text,
+        await ref.read(authStateProvider.notifier).login(
+          email: _usernameController.text,
+          password: _passwordController.text,
         );
 
-        // Update auth state
-        ref.read(authStateProvider.notifier).state = user;
-
-        if (mounted && ref.read(authStateProvider) != null) {
+        if (mounted && context.mounted) {
           Navigator.pushReplacementNamed(context, '/');
         }
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(e.toString())),
+            SnackBar(content: Text('Login failed: $e')),
           );
-        }
-      } finally {
-        if (mounted) {
-          setState(() {
-            _isLoading = false;
-          });
         }
       }
     }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/api_provider.dart';
+import '../providers/auth_provider.dart';
 
 class SignupPage extends ConsumerStatefulWidget {
   const SignupPage({super.key});
@@ -22,32 +22,21 @@ class _SignupPageState extends ConsumerState<SignupPage> {
 
   Future<void> _signup() async {
     if (_formKey.currentState!.validate()) {
-      setState(() {
-        _isLoading = true;
-      });
-
       try {
-        final apiService = ref.read(apiServiceProvider);
+        await ref.read(authStateProvider.notifier).signUp(
+          email: _emailController.text,
+          password: _passwordController.text,
+          name: _nameController.text,
+        );
 
-
-        if (mounted) {
-          // Show success message and navigate to login
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Account created successfully')),
-          );
-          Navigator.pushReplacementNamed(context, '/login');
+        if (mounted && context.mounted) {
+          Navigator.pushReplacementNamed(context, '/');
         }
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error: $e')),
+            SnackBar(content: Text('Signup failed: $e')),
           );
-        }
-      } finally {
-        if (mounted) {
-          setState(() {
-            _isLoading = false;
-          });
         }
       }
     }
@@ -120,6 +109,9 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your password';
+                    }
+                    if (value.length < 8) {
+                      return 'Password must be at least 8 characters long';
                     }
                     return null;
                   },
