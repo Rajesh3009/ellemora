@@ -12,6 +12,41 @@ class CartPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cart'),
+        actions: [
+          if (cart.isNotEmpty)
+            IconButton(
+              icon: const Icon(Icons.delete_sweep),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Clear Cart'),
+                    content: const Text(
+                        'Are you sure you want to remove all items from your cart?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('Cancel'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          ref.read(cartProvider.notifier).clearCart();
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Cart cleared'),
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
+                        },
+                        child: const Text('Clear'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+        ],
       ),
       body: cart.isEmpty
           ? const Center(
@@ -22,9 +57,12 @@ class CartPage extends ConsumerWidget {
               itemBuilder: (context, index) {
                 final item = cart[index];
                 return ListTile(
-                  leading: Image.network(
-                    item.product.image,
-                    fit: BoxFit.cover,
+                  leading: SizedBox(
+                    width: 80,
+                    child: Image.network(
+                      item.product.image,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   title: Text(item.product.title),
                   subtitle: Row(

@@ -1,14 +1,30 @@
 # Ellemora - E-Commerce App
 
-A modern e-commerce mobile application built with Flutter and Riverpod. This app demonstrates clean architecture and best practices for building scalable Flutter applications.
+A modern, responsive e-commerce mobile application built with Flutter and Riverpod. This app demonstrates clean architecture, state management, and responsive design principles for building scalable Flutter applications.
 
 ## Features
 
 - Browse products from Fake Store API
 - View detailed product information
 - Shopping cart functionality
-- Responsive design
+- Dark/Light theme with persistence
+- Responsive design for all screen sizes:
+  - Mobile (2 columns)
+  - Tablet (3 columns)
+  - Desktop (4 columns)
+  - Large Desktop (6 columns)
+- Error handling and loading states
+- Pull-to-refresh functionality
 - Clean and intuitive UI
+
+## Tech Stack
+
+- Flutter SDK (3.5.0 or higher)
+- Dart SDK (3.5.3 or higher)
+- State Management: Riverpod
+- Local Storage: SharedPreferences
+- HTTP Client: http
+- Backend: Appwrite
 
 ## Prerequisites
 
@@ -32,28 +48,31 @@ First, install the Flutter SDK by following these steps:
 
 ### 2. Clone the Repository
 
-```bash
 git clone https://github.com/yourusername/ellemora.git
 cd ellemora
-```
 
 ### 3. Install Dependencies
 
-```bash
 flutter pub get
-```
 
-### 4. Run the App
+### 4. Configure Appwrite
 
-```bash
+1. Create a new project in your Appwrite Console
+2. Create a new database and collection for the cart items
+3. Copy `lib/config/appwrite_config.example.dart` to `lib/config/appwrite_config.dart`
+4. Fill in the configuration values:
+
+
+
+### 5. Run the App
+
 flutter run
-```
+
 
 ## Building for Production
 
 ### Android
 
-```bash
 flutter build apk --release
-```
+
 The APK file will be located in the `build/app/outputs/flutter-apk/` directory.

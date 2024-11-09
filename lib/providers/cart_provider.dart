@@ -45,8 +45,8 @@ class CartItem {
 class CartNotifier extends StateNotifier<List<CartItem>> {
   final Databases databases;
   final String userId;
-  static const String databaseId = '672efdd7001e2dd65d9a'; // Replace with your database ID
-  static const String collectionId = '672efde6001c9d5fbb32'; // Replace with your collection ID
+  static const String databaseId = AppwriteConfig.databaseId; 
+  static const String collectionId = AppwriteConfig.collectionId;
 
   CartNotifier({required this.databases, required this.userId}) : super([]) {
     // Load cart items when initialized
@@ -167,6 +167,10 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
   double get total {
     return state.fold(
         0, (sum, item) => sum + (item.product.price * item.quantity));
+  }
+
+  void clearCart() {
+    state = [];
   }
 }
 
