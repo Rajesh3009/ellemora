@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/products_provider.dart';
 import '../pages/cart_page.dart';
 import '../providers/cart_provider.dart';
+import 'product_detail_page.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -76,42 +77,55 @@ class HomePage extends ConsumerWidget {
           itemCount: products.length,
           itemBuilder: (context, index) {
             final product = products[index];
-            return Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Image.network(
-                        product.image,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      product.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 4),
-                    Text('\$${product.price}'),
-                    const SizedBox(height: 4),
-                    ElevatedButton(
-                      onPressed: () {
-                        ref.read(cartProvider.notifier).addItem(product);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('${product.title} added to cart'),
-                            duration: const Duration(seconds: 1),
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProductDetailPage(product: product),
+                  ),
+                );
+              },
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: Hero(
+                          tag: 'product-${product.id}',
+                          child: Image.network(
+                            product.image,
+                            fit: BoxFit.contain,
                           ),
-                        );
-                      },
-                      child: const Text('Add to Cart'),
-                    ),
-                  ],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        product.title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 4),
+                      Text('\$${product.price}'),
+                      const SizedBox(height: 4),
+                      ElevatedButton(
+                        onPressed: () {
+                          ref.read(cartProvider.notifier).addItem(product);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('${product.title} added to cart'),
+                              duration: const Duration(seconds: 1),
+                            ),
+                          );
+                        },
+                        child: const Text('Add to Cart'),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );
