@@ -2,6 +2,11 @@
 
 A modern, responsive e-commerce mobile application built with Flutter and Riverpod. This app demonstrates clean architecture, state management, and responsive design principles for building scalable Flutter applications.
 
+## Demo
+
+https://github.com/rajesh3009/ellemora/media/demo.mp4
+
+
 ## Features
 
 - Browse products from Fake Store API
